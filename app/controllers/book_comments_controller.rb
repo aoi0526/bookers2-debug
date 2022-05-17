@@ -7,17 +7,16 @@ class BookCommentsController < ApplicationController
     @comment.book_id = @book.id #どの投稿にコメントするか
     @comment_new = BookComment.new
     if @comment.save
+      redirect_to book_path(@book)
     else
       @user = @book.user
-      render 'books/show'
+      render 'book/show'
     end
   end
 
   def destroy
-    @comment = BookComment.find(params[:id])
-    @book = BOok.find(params[:book_id]) #詳しくidを指定
-    @comment_new = BookComment.new
-    @comment.destroy
+    BookComment.find_by(id: params[:id]).destroy
+    redirect_to book_path(params[:book_id])
   end
 
 
