@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     get :followers, on: :member
   end
 
-  get 'chats/:id', to: 'chats#show', as: 'chat'
+  get 'chat/:id', to: 'chats#show', as: 'chat'
   resources :chats, only: [:create]
 
 
