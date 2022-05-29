@@ -7,9 +7,16 @@ class BooksController < ApplicationController
     @book = Book.find(params[:id])
     @user = @book.user
     @comment = BookComment.new
+
+    #viewcount
+    @book_detail = Book.find(params[:id])
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+      current_user.view_counts.create(book_id: @book_detail.id)
+    end
   end
 
   def index
+
     to  = Time.current.at_end_of_day
     from  = (to - 6.day).at_beginning_of_day
      @books = Book.all.sort {|a,b|
@@ -18,6 +25,14 @@ class BooksController < ApplicationController
     }
     @book = Book.new
     @user = User.find(current_user.id)
+
+    #viewcount
+    @book_detail = Book.find(params[:id])
+    unless ViewCount.find_by(user_id: current_user.id, book_id: @book_detail.id)
+      current_user.view_counts.create(book_id: @book_detail.id)
+    end
+
+
   end
 
   def create
